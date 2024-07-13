@@ -36,7 +36,7 @@
             </g>
           </svg>
         </span>
-        <span class="app-brand-text demo menu-text fw-bold ms-2">Sneat</span>
+        <span class="app-brand-text menu-text fw-bold ms-2 demo">SHARE</span>
       </a>
 
       <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-xl-none">
@@ -52,24 +52,24 @@
         <a href="javascript:void(0);" class="menu-link menu-toggle">
           <i class="menu-icon tf-icons bx bx-home-circle"></i>
           <div data-i18n="Dashboards">Dashboards</div>
-          <div class="badge bg-danger rounded-pill ms-auto">5</div>
+          {% comment %} <div class="badge bg-danger rounded-pill ms-auto">5</div> {% endcomment %}
         </a>
         <ul class="menu-sub">
-          <li class="menu-item">
-            <a href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/html/vertical-menu-template/dashboards-crm.html" target="_blank" class="menu-link">
-              <div data-i18n="CRM">CRM</div>
-              <div class="badge bg-label-primary fs-tiny rounded-pill ms-auto">Pro</div>
-            </a>
-          </li>
           <li class="menu-item active">
-            <a href="index.html" class="menu-link">
-              <div data-i18n="Analytics">Analytics</div>
+            <a href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/html/vertical-menu-template/dashboards-crm.html" target="_blank" class="menu-link">
+              <div data-i18n="CRM">Send a Mail</div>
+              {% comment %} <div class="badge bg-label-primary fs-tiny rounded-pill ms-auto">Pro</div> {% endcomment %}
             </a>
           </li>
-          <li class="menu-item">
+          <li class="menu-item ">
+            <a href="index.html" class="menu-link">
+              <div data-i18n="Analytics">Sent Mails</div>
+            </a>
+          </li>
+          {% comment %}<li class="menu-item">
             <a href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/html/vertical-menu-template/app-ecommerce-dashboard.html" target="_blank" class="menu-link">
               <div data-i18n="eCommerce">eCommerce</div>
-              <div class="badge bg-label-primary fs-tiny rounded-pill ms-auto">Pro</div>
+               <div class="badge bg-label-primary fs-tiny rounded-pill ms-auto">Pro</div> 
             </a>
           </li>
           <li class="menu-item">
@@ -84,11 +84,12 @@
               <div class="badge bg-label-primary fs-tiny rounded-pill ms-auto">Pro</div>
             </a>
           </li>
+          {% endcomment %}
         </ul>
       </li>
 
       <!-- Layouts -->
-      <li class="menu-item">
+      {% comment %} <li class="menu-item">
         <a href="javascript:void(0);" class="menu-link menu-toggle">
           <i class="menu-icon tf-icons bx bx-layout"></i>
           <div data-i18n="Layouts">Layouts</div>
@@ -121,10 +122,10 @@
             </a>
           </li>
         </ul>
-      </li>
+      </li> {% endcomment %}
 
       <!-- Front Pages -->
-      <li class="menu-item">
+      {% comment %} <li class="menu-item">
         <a href="javascript:void(0);" class="menu-link menu-toggle">
           <i class="menu-icon tf-icons bx bx-store"></i>
           <div data-i18n="Front Pages">Front Pages</div>
@@ -157,9 +158,9 @@
             </a>
           </li>
         </ul>
-      </li>
+      </li> {% endcomment %}
 
-      <li class="menu-header small text-uppercase">
+      {% comment %} <li class="menu-header small text-uppercase">
         <span class="menu-header-text">Apps &amp; Pages</span>
       </li>
       <!-- Apps -->
@@ -472,6 +473,6 @@
           <i class="menu-icon tf-icons bx bx-file"></i>
           <div data-i18n="Documentation">Documentation</div>
         </a>
-      </li>
+      </li> {% endcomment %}
     <div class="ps__rail-x" style="left: 0px; bottom: 0px;"><div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps__rail-y" style="top: 0px; height: 618px; right: 4px;"><div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 267px;"></div></div></ul>
   </aside>

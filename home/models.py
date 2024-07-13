@@ -1,9 +1,9 @@
 from django.db import models
-
-# Create your models here.
+from tinymce.models import HTMLField
 
 class Attachments(models.Model):
     file = models.FileField(upload_to='attachments/')
+    mailing = models.ForeignKey('Mailing', related_name='attachments', on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -12,15 +12,19 @@ class Attachments(models.Model):
 
 class Mailing(models.Model):
     email = models.EmailField(max_length=254)
+    batches = models.ManyToManyField('Batch')
     subject = models.CharField(max_length=100)
-    message = models.TextField()
-    attachment = models.ManyToManyField(Attachments, blank=True)
+    message = HTMLField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.email
-    
+
+    @property
+    def get_attachments(self):
+        return self.attachments.all()
+
     class Meta:
         verbose_name = 'Mailing'
         verbose_name_plural = 'Mailings'
@@ -34,3 +38,15 @@ class OTPMailing(models.Model):
 class Batch(models.Model):
     name = models.IntegerField(max_length=4)
     recipients = models.CharField(max_length=2000)
+
+    def __str__(self):
+        return str(self.name)
+    
+class MailingToken(models.Model):
+    mailing = models.ForeignKey(Mailing, on_delete=models.CASCADE)
+    token = models.CharField(max_length=100)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.token

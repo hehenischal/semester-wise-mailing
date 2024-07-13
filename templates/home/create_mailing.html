@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+    <div class="col-12">
+        <div class="card mb-4">
+            <h5 class="card-header">Form Controls</h5>
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="{{ form.batches.id_for_label }}" class="form-label">Batches</label>
+                        {{ form.batches }}
+                    </div>
+                    <div class="mb-3">
+                        <label for="{{ form.subject.id_for_label }}" class="form-label">Subject</label>
+                        {{ form.subject }}
+                    </div>
+                    <div class="col-12">
+                        <div class="mb-3">
+                            <label for="{{ form.message.id_for_label }}" class="form-label col-12">Message</label>
+                            {{ form.message }}
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="{{ form.attachment.id_for_label }}" class="form-label">Attachments</label>
+                        <input type="file" name="attachments" class="form-control" id="id_attachments" multiple>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    {{ form.media}}
+{% endblock %}

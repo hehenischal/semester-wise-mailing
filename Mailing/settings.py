@@ -42,7 +42,33 @@ INSTALLED_APPS = [
     #my apps 
     'accounts',
     'home',
+    'tinymce',
 ]
+
+
+MEDIA_URLS = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'home'
+
+LOGOUT_REDIRECT_URL = 'login'
+
+TINYMCE_DEFAULT_CONFIG = {
+    'height': 400,
+    'width': '100%',
+    'menubar': False,
+    'plugins': [
+        'advlist autolink lists link image charmap print preview anchor',
+        'searchreplace visualblocks code fullscreen',
+        'insertdatetime media table paste code help wordcount'
+    ],
+    'toolbar': 'undo redo | formatselect | ' +
+               'bold italic backcolor | alignleft aligncenter ' +
+               'alignright alignjustify | bullist numlist outdent indent | ' +
+               'removeformat | help',
+}
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
