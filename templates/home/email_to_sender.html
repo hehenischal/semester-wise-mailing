@@ -1,0 +1,24 @@
+<h1>Subject: {{ token.mailing.subject }}</h1>
+
+<p>Description: {{ token.mailing.message|safe }}</p>
+
+{% if token.mailing.attachments %}
+<ul>
+{% for attachment in token.mailing.attachments.all %}
+<li>
+<a href="{{ attachment.file.url }}">{{ attachment.file.name }}</a>
+</li>
+{% endfor %}
+</ul>
+{% endif %}
+
+<p>Will be sent to the following batches:</p>
+
+{% if token.mailing.batches %}
+{% for batch in token.mailing.batches.all %}
+    {{ batch.name }}{% if not forloop.last %}, {% endif %}
+{% endfor %}
+{% endif %}
+
+<p>Please confirm by clicking the link below:</p>
+<a href="{{ confirm_url }}">Confirm and Send Email</a>
