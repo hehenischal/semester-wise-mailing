@@ -1,179 +1,69 @@
-{% extends "base.html" %}
-{% load static %}
-
-{% block content %}
-<h5 class="pb-1 mb-6">Sent Mails</h5>
-<div class="row mb-12">
-    <div class="col-md">
-      <div class="card mb-6">
-        <div class="card-header header-elements">
-          <h5 class="mb-0 me-2">Card Header</h5>
-          <div class="card-header-elements ms-auto">
-            <span class="badge bg-primary rounded-pill">New</span>
-          </div>
-        </div>
-        <div class="card-body">
-          <p class="card-text">Sample card header with badge.</p>
-        </div>
-      </div>
+{% extends "base.html" %} {% load static %} {% block content %}
+<div class="container-xxl flex-grow-1 container-p-y">
+  {% if messages %}
+  {% for message  in messages %}
+  <div class="bs-toast toast toast-ex show animate__animated my-2 fade bg-{{message.tags}} animate__fade hide" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="2000">
+    <div class="toast-header">
+      <i class="bx bx-bell me-2"></i>
+      <div class="me-auto fw-medium">{{messages.tags}}</div>
+      <small> &lt; 1 min ago</small>
+      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
     </div>
-    <div class="col-md">
-      <div class="card mb-6">
-        <div class="card-body">
-          <div class="card-title header-elements">
-            <h5 class="m-0 me-2">Card Title</h5>
-            <div class="card-title-elements ms-auto">
-              <span class="badge bg-label-primary rounded-pill">10</span>
-            </div>
-          </div>
-          <p class="card-text">Sample card title with outline badge.</p>
-        </div>
-      </div>
-    </div>
-    <div class="w-100"></div>
-  
-    <div class="col-md">
-      <div class="card mb-6">
-        <div class="card-header header-elements">
-          <h5 class="mb-0 me-2">Card Header</h5>
-  
-          <div class="card-header-elements ms-auto">
-            <button type="button" class="btn btn-xs btn-primary"><span class="tf-icon bx bx-plus bx-xs me-1"></span>Button</button>
-          </div>
-        </div>
-        <div class="card-body">
-          <p class="card-text">Sample card header with extra small button.</p>
-        </div>
-      </div>
-    </div>
-  
-    <div class="col-md">
-      <div class="card mb-6">
-        <div class="card-body">
-          <div class="card-title header-elements">
-            <h5 class="m-0 me-2">Card Title</h5>
-            <div class="card-title-elements ms-auto">
-              <button type="button" class="btn btn-icon btn-sm btn-primary">
-                <span class="tf-icon bx bx-shopping-bag"></span>
-              </button>
-            </div>
-          </div>
-          <p class="card-text">Sample card title with small icon button.</p>
-        </div>
-      </div>
-    </div>
-    <div class="w-100"></div>
-  
-    <div class="col-md">
-      <div class="card mb-6">
-        <div class="card-header header-elements">
-          <h5 class="mb-0 me-2">Card Header</h5>
-  
-          <div class="card-header-elements ms-auto">
-            <input type="text" class="form-control form-control-sm" placeholder="Search">
-          </div>
-        </div>
-        <div class="card-body">
-          <p class="card-text">Sample card header with extra search input box.</p>
-        </div>
-      </div>
-    </div>
-    <div class="col-md">
-      <div class="card mb-6">
-        <div class="card-body">
-          <div class="card-title header-elements">
-            <h5 class="m-0 me-2">Card Title</h5>
-            <div class="card-title-elements ms-auto">
-              <div class="form-check form-switch mb-0 me-n2">
-                <input type="checkbox" class="form-check-input">
-              </div>
-            </div>
-          </div>
-          <p class="card-text">Sample card title with switch.</p>
-        </div>
-      </div>
-    </div>
-    <div class="w-100"></div>
-    <div class="col-md">
-      <div class="card mb-6">
-        <div class="card-header header-elements">
-          <h5 class="mb-0 me-2">Card Header</h5>
-          <div class="card-header-elements ms-auto">
-            <span class="tf-icon bx bx-bell text-muted"></span>
-            <span class="text text-muted d-flex">
-              <small>Sample Text</small>
-            </span>
-          </div>
-        </div>
-        <div class="card-body">
-          <p class="card-text">Sample card header with text.</p>
-        </div>
-      </div>
-    </div>
-    <div class="col-md">
-      <div class="card mb-6">
-        <div class="card-body">
-          <div class="card-title header-elements">
-            <h5 class="m-0 me-2">Card Title</h5>
-            <div class="card-header-elements ms-auto">
-              <span class="tf-icon bx bx-bell text-muted"></span>
-              <span class="text text-muted d-flex">
-                <small>Sample Text</small>
-              </span>
-            </div>
-          </div>
-          <p class="card-text">Sample card title with text.</p>
-        </div>
-      </div>
-    </div>
-    <div class="w-100"></div>
-    <div class="col-md">
-      <div class="card mb-6">
-        <div class="card-header header-elements">
-          <h5 class="mb-0 me-2">Card Header</h5>
-          <div class="card-header-elements">
-            <span class="badge bg-danger rounded-pill">Hello!</span>
-          </div>
-          <div class="card-header-elements ms-auto">
-            <div class="btn-group">
-              <button type="button" class="btn btn-primary">Primary</button>
-              <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown"></button>
-              <div class="dropdown-menu">
-                <a class="dropdown-item" href="javascript:void(0)">Action</a>
-                <a class="dropdown-item" href="javascript:void(0)">Another action</a>
-                <a class="dropdown-item" href="javascript:void(0)">Something else here</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="javascript:void(0)">Separated link</a>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="card-body">
-          <p class="card-text">Sample card header with badge and dropdown.</p>
-        </div>
-      </div>
-    </div>
-    <div class="col-md">
-      <div class="card mb-6">
-        <div class="card-body">
-          <div class="card-title header-elements">
-            <h5 class="m-0 me-2">Card Title</h5>
-            <div class="card-title-elements">
-              <div class="form-check form-switch mb-0">
-                <input type="checkbox" class="form-check-input">
-              </div>
-            </div>
-            <div class="card-title-elements ms-auto">
-              <select class="form-select form-select-sm w-auto">
-                <option selected="">Option 1</option>
-                <option>Option 2</option>
-                <option>Option 3</option>
-              </select>
-            </div>
-          </div>
-          <p class="card-text">Sample card title with switch, select box &amp; button.</p>
-        </div>
-      </div>
+    <div class="toast-body">
+      {{message.message}}
     </div>
   </div>
+  {% endfor %}
+  {% endif %}
+  <h5 class="pb-1 mb-6">Sent Mails</h5>
+  <div class="row mb-12">
+    {% for mail in sent_mails %}
+    <div class="col-6">
+      <div class="card mb-4">
+        <div class="card-body">
+          <div class="card-title header-elements">
+            <h5 class="m-0 me-2">
+              {% for batch in mail.batches.all %} 
+                {{batch.name}} 
+                {% if not forloop.last %}
+                ,
+                {% endif %} 
+              {% endfor %}
+            </h5>
+            <div class="card-title-elements ms-auto">
+              <span class="badge bg-label-primary rounded-pill"
+                >{{mail.attachments.count}} attachments</span>
+                {% if mail.mailing_token.sent  %}
+                <span class="badge bg-label-success rounded-pill">Sent</span>
+                {% else %}
+                <span class="badge bg-label-warning rounded-pill">Pending</span>
+                {% endif %}
+            </div>
+          </div>
+          <p class="card-text">{{mail.subject}}</p>
+          <p class="card-text text-muted small">
+            {{mail.message|safe|truncatechars:150}}
+          </p>
+          <div class="d-flex align-items-center">
+            <div class="avatar avatar-sm me-3">
+              <img
+                src="{% static 'assets/img/avatars/user.png' %}"
+                class="avatar-img rounded-circle"
+                alt="Avatar"
+              />
+            </div>
+            <div class="flex-1">
+              <h6 class="m-0">{{mail.sender}}</h6>
+              <p class="card-text text-muted small">{{mail.created_at}}</p>
+            </div>
+            <div class="ms-auto">
+              <a href="" class="btn btn-sm btn-outline-primary">View</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
 {% endblock content %}

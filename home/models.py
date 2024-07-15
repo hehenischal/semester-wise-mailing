@@ -36,15 +36,16 @@ class OTPMailing(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
 class Batch(models.Model):
-    name = models.IntegerField(max_length=4)
+    name = models.IntegerField()
     recipients = models.CharField(max_length=2000)
 
     def __str__(self):
         return str(self.name)
     
 class MailingToken(models.Model):
-    mailing = models.ForeignKey(Mailing, on_delete=models.CASCADE)
+    mailing = models.ForeignKey(Mailing, on_delete=models.CASCADE, related_name='mailing_token')
     token = models.CharField(max_length=100)
+    sent = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

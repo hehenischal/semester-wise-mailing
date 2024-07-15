@@ -750,9 +750,7 @@
           <div class="content-wrapper">
             <!-- Content -->
 
-            <div class="container-xxl flex-grow-1 container-p-y">
               {% block content %}{% endblock content %}
-            </div>
             <!-- / Content -->
 
             <!-- Footer -->
@@ -793,6 +791,16 @@
 
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async="" defer="" src="https://buttons.github.io/buttons.js"></script>
+
+    <script>
+      console.log(window.location.pathname);
+      links = document.querySelectorAll('.menu-link');
+      links.forEach(link => {
+        if (link.getAttribute('href') == window.location.pathname) {
+            link.parentElement.classList.add('active');
+        }
+      });
+    </script>
   
 
 <svg id="SvgjsSvg1283" width="2" height="0" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.dev" style="overflow: hidden; top: -100%; left: -100%; position: absolute; opacity: 0;"><defs id="SvgjsDefs1284"></defs><polyline id="SvgjsPolyline1285" points="0,0"></polyline><path id="SvgjsPath1286" d="M-1 217.1625L-1 217.1625C-1 217.1625 43.805001395089285 217.1625 43.805001395089285 217.1625C43.805001395089285 217.1625 87.61000279017857 217.1625 87.61000279017857 217.1625C87.61000279017857 217.1625 131.41500418526786 217.1625 131.41500418526786 217.1625C131.41500418526786 217.1625 175.22000558035714 217.1625 175.22000558035714 217.1625C175.22000558035714 217.1625 219.02500697544642 217.1625 219.02500697544642 217.1625C219.02500697544642 217.1625 262.8300083705357 217.1625 262.8300083705357 217.1625C262.8300083705357 217.1625 306.635009765625 217.1625 306.635009765625 217.1625C306.635009765625 217.1625 306.635009765625 217.1625 306.635009765625 217.1625 "></path></svg></body></html>

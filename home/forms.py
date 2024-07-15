@@ -13,6 +13,6 @@ class MailingForm(forms.ModelForm):
         model = Mailing
         fields = ['batches', 'subject', 'message']
         widgets = {
-            'subject': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Subject'}),
-            'message': TinyMCE(attrs={'cols': 80, 'rows': 30}),  # Adjust cols and rows as needed
+            'subject': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Subject', 'required': 'required'}),
+            'message': TinyMCE(attrs={'cols': 50, 'rows': 10 }),  
         }
