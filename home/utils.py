@@ -9,11 +9,11 @@ from django.conf import settings
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponse
 from home.models import MailingToken
-
 def get_filename(filename, request):
     hash_object = hashlib.sha1(str(time.time()).encode('utf-8'))
     hash_object.update(filename.encode('utf-8'))
     return f'{hash_object.hexdigest()[:10]}-{filename}'
+
 
 
 def sendMailToken(token):
@@ -74,4 +74,3 @@ def confirm_mailing(request, token):
     mailing_token.save()
 
     return HttpResponse("Email sent successfully!")
-

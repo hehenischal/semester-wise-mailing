@@ -48,6 +48,7 @@ TINYMCE_DEFAULT_CONFIG = {
     'bold italic backcolor | alignleft aligncenter ' +
     'alignright alignjustify | bullist numlist outdent indent | ' +
     'removeformat | help',
+
 }
 
 
