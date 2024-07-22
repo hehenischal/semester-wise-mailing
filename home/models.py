@@ -51,3 +51,7 @@ class MailingToken(models.Model):
 
     def __str__(self):
         return self.token
+    
+    @property
+    def is_sent(self):
+        return self.sent

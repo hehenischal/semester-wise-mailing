@@ -5,7 +5,7 @@
 <div class="container-xxl flex-grow-1 container-p-y">
     <div class="col-12">
         <div class="card mb-4">
-            <h5 class="card-header">Form Controls</h5>
+            <h5 class="card-header">Send a mail</h5>
             <div class="card-body">
                 <form method="post" enctype="multipart/form-data">
                     {% csrf_token %}
@@ -13,6 +13,12 @@
                         <label for="{{ form.batches.id_for_label }}" class="form-label">Batches</label>
                         {{ form.batches }}
                     </div>
+                    <div class="mb-3">
+                        <label class="form-label"> Track this email 
+                            <input class="form-check-input mt-0" type="checkbox" value="" aria-label="track this email">
+                            <sub>Recipients will be notified about the tracking</sub>
+                        </label>
+                      </div>
                     <div class="mb-3">
                         <label for="{{ form.subject.id_for_label }}" class="form-label">Subject</label>
                         {{ form.subject }}
@@ -23,6 +29,7 @@
                             {{ form.message }}
                         </div>
                     </div>
+                    
                     <div class="mb-3">
                         <label for="{{ form.attachment.id_for_label }}" class="form-label">Attachments</label>
                         <input type="file" name="attachments" class="form-control" id="id_attachments" multiple>

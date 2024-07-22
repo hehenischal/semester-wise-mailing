@@ -30,6 +30,7 @@ ALLOWED_HOSTS = config('ALLOWED_HOSTS').split(' ')
 
 SITE_URL = config('SITE_URL')
 
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -168,3 +169,9 @@ EMAIL_USE_SSL = False
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 EMAIL_FROM = config('EMAIL_FROM')
+
+APPEND_SLASH = True
+
+
+
+

@@ -32,8 +32,8 @@
             </h5>
             <div class="card-title-elements ms-auto">
               <span class="badge bg-label-primary rounded-pill"
-                >{{mail.attachments.count}} attachments</span>
-                {% if mail.mailing_token.sent  %}
+                >{{mail.attachments.count}} Attachments</span>
+                {% if mail.mailing_token.is_sent  %}
                 <span class="badge bg-label-success rounded-pill">Sent</span>
                 {% else %}
                 <span class="badge bg-label-warning rounded-pill">Pending</span>
