@@ -1,7 +1,6 @@
 'use strict';
 {
     window.addEventListener('load', function(e) {
-
         function setTheme(mode) {
             if (mode !== "light" && mode !== "dark" && mode !== "auto") {
                 console.error(`Got invalid theme mode: ${mode}. Resetting to auto.`);
@@ -50,6 +49,9 @@
             });
             initTheme();
         }
+
+        window.cycleTheme = cycleTheme; // Expose cycleTheme to global scope
+        window.setTheme = setTheme; // Expose setTheme to global scope
 
         setupTheme();
     });

@@ -1,15 +1,18 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse,FileResponse
 from .models import MailSeen
-
-# Create your views here.
-
 
 def track(request, token):
     if request.method == 'GET':
-        MailSeen.objects.get(token=token).seen = True
-        response = HttpResponse(content_type='image/png')
-        response['Content-Disposition'] = 'inline'
-        response['Content-Length'] = '0'
-        response['Content-Type'] = 'image/png'
+        mailobj = None
+        try:
+            mailobj = MailSeen.objects.get(token=token)
+        except:
+            print("Object doesnot exist")
+        if mailobj is not None:
+            mailobj.seen = True
+            mailobj.save()
+            print("Object updated")
+        image_path = 'templates/1x1.png'
+        response = FileResponse(open(image_path, 'rb'), content_type='image/png')
         return response

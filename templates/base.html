@@ -1,6 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en" class="light-style layout-menu-fixed layout-compact" dir="ltr" data-theme="theme-default" data-assets-path="../assets/" data-template="vertical-menu-template-free">
+<html lang="en" class="light-style layout-menu-fixed layout-compact" dir="ltr" data-theme="theme-dark" data-assets-path="../assets/" data-template="vertical-menu-template">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
@@ -771,7 +771,6 @@
 
     <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->
-
     <script src="{% static 'assets/vendor/libs/jquery/jquery.js' %}"></script>
     <script src="{% static 'assets/vendor/libs/popper/popper.js' %}"></script>
     <script src="{% static 'assets/vendor/js/bootstrap.js' %}"></script>
@@ -786,6 +785,7 @@
     <!-- Main JS -->
     <script src="{% static 'assets/js/main.js' %}"></script>
 
+
     <!-- Page JS -->
     <script src="{% static 'assets/js/dashboards-analytics.js' %}"></script>
 
@@ -798,6 +798,7 @@
       links.forEach(link => {
         if (link.getAttribute('href') == window.location.pathname) {
             link.parentElement.classList.add('active');
+            link.parentElement.parentElement.parentElement.classList.add('active','open');
         }
       });
     </script>

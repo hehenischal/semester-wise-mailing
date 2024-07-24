@@ -3,12 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Email Template</title>
+    <title>{{mailing.subject}}</title>
 </head>
 <body>
-    <small>This Email was sent by: {{user.email}} &lt; {{mailing.email}} &gt; </small>
-    <h1>{{ mailing.subject }}</h1>
+    <small>This Email was sent by: &lt; {{mailing.email}} &gt; </small>
+    <p>{{ mailing.message|safe }}</p>
 
-    <p>Description: {{ mailing.message|safe }}</p>
+    {% if mailing.tracking %}
+    <sub> The Email is being Tracked for Analytics</sub>
+    {% endif %}
 </body>
 </html>

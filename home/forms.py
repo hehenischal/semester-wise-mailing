@@ -11,8 +11,9 @@ class MailingForm(forms.ModelForm):
 
     class Meta:
         model = Mailing
-        fields = ['batches', 'subject', 'message']
+        fields = ['batches', 'subject', 'message','tracking']
         widgets = {
             'subject': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Subject', 'required': 'required'}),
-            'message': TinyMCE(attrs={'cols': 50, 'rows': 10 }),  
+            'message': TinyMCE(attrs={'cols': 50, 'rows': 10 }),
+            'tracking': forms.CheckboxInput(attrs={'class': 'form-check-input', 'id': 'tracking'}),  
         }

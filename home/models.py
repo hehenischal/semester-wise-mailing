@@ -14,6 +14,7 @@ class Mailing(models.Model):
     email = models.EmailField(max_length=254)
     batches = models.ManyToManyField('Batch')
     subject = models.CharField(max_length=100)
+    tracking = models.BooleanField(default=False)
     message = HTMLField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -36,7 +37,7 @@ class OTPMailing(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
 class Batch(models.Model):
-    name = models.IntegerField()
+    name = models.CharField(max_length=30)
     recipients = models.CharField(max_length=2000)
 
     def __str__(self):

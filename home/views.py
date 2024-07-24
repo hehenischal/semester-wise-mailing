@@ -16,10 +16,13 @@ from django.core.mail import EmailMultiAlternatives
 @login_required
 def home(request):
     sent_mails = Mailing.objects.filter(email=request.user.email)
+    for mail in sent_mails:
+        mail.sent = MailingToken.objects.get(mailing=mail).sent
     context = {
         "sent_mails": sent_mails,
     }
     return render(request, "home/index.html", context)
+
 
 
 def sendMailToken(token):
@@ -30,6 +33,7 @@ def sendMailToken(token):
         {
             "token": token,
             "confirm_url": confirm_url,
+            'mailing': token.mailing
         },
     )
     plain_message = strip_tags(html_message)
@@ -56,8 +60,9 @@ def create_mailing(request):
         if form.is_valid():
             mailing = form.save(commit=False)
             mailing.email = request.user.email
+            mailing.tracking = form.cleaned_data["tracking"]
+            print(mailing.tracking)
             mailing.save()
-
             batches = request.POST.getlist("batches")
             for batch_id in batches:
                 batch = Batch.objects.get(id=batch_id)
@@ -123,7 +128,7 @@ def confirm_mailing(request, token):
     mailing_token.sent = True
     mailing_token.save()
 
-    return HttpResponse("Email sent successfully!")
+    return render(request, "home/success.html", {"mailing": mailing})
 
 
 def base(r):

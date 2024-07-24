@@ -31,9 +31,12 @@
               {% endfor %}
             </h5>
             <div class="card-title-elements ms-auto">
+              {% if mail.tracking %}
+              <span class="badge bg-label-info rounded-pill">Tracking</span>
+              {% endif %}
               <span class="badge bg-label-primary rounded-pill"
                 >{{mail.attachments.count}} Attachments</span>
-                {% if mail.mailing_token.is_sent  %}
+                {% if mail.sent  %}
                 <span class="badge bg-label-success rounded-pill">Sent</span>
                 {% else %}
                 <span class="badge bg-label-warning rounded-pill">Pending</span>

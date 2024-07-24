@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'accounts',
     'home',
     'tinymce',
+    'tracking',
 ]
 
 
