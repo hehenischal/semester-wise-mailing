@@ -67,12 +67,9 @@ def create_mailing(request):
             for batch_id in batches:
                 batch = Batch.objects.get(id=batch_id)
                 mailing.batches.add(batch)
-
             files = request.FILES.getlist("attachments")
             for file in files:
                 Attachments.objects.create(file=file, mailing=mailing)
-
-            # Create a mailing_token for the mailing
             token = str(uuid.uuid4())
             mailing_obj = MailingToken.objects.create(
                 mailing=mailing, token=token, sent=False
@@ -122,7 +119,7 @@ def confirm_mailing(request, token):
     for attachment in mailing.attachments.all():
         email.attach_file(attachment.file.path)
 
-    # Send the email
+
     email.send(fail_silently=False)
 
     mailing_token.sent = True
@@ -133,3 +130,36 @@ def confirm_mailing(request, token):
 
 def base(r):
     return render(r, "base.html")
+
+
+from django.views.decorators.http import require_POST
+
+@login_required
+def update_mailing(request, pk):
+    mailing = get_object_or_404(Mailing, pk=pk)
+
+    if request.method == "POST":
+        form = MailingForm(request.POST, request.FILES, instance=mailing)
+        if form.is_valid():
+            # Delete existing attachments if new ones are uploaded
+            if request.FILES.getlist("attachments"):
+                mailing.attachments.all().delete()
+                files = request.FILES.getlist("attachments")
+                for file in files:
+                    Attachments.objects.create(file=file, mailing=mailing)
+
+            form.save()
+            messages.success(request, "Mailing updated successfully!")
+            return redirect("index")
+        else:
+            messages.error(request, "There was an error updating the mailing.")
+    else:
+        form = MailingForm(instance=mailing)
+
+    batches = Batch.objects.all()
+    context = {
+        "form": form,
+        "batches": batches,
+        "mailing": mailing,
+    }
+    return render(request, "home/update_mailing.html", context)

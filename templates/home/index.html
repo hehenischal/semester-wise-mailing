@@ -60,6 +60,12 @@
               <p class="card-text text-muted small">{{mail.created_at}}</p>
             </div>
             <div class="ms-auto">
+              {% if not mail.sent %}
+              <a href="{% url 'update_mailing' mail.id %}" class="btn btn-sm btn-outline-primary">Update</a>
+              {% else %}
+              
+              <a href="#" class="btn btn-sm btn-outline-primary disabled">Update</a>
+              {% endif %}
               <a href="" class="btn btn-sm btn-outline-primary">View</a>
             </div>
           </div>

@@ -1,18 +1,18 @@
-from django.shortcuts import render
-from django.http import HttpResponse,FileResponse
+from django.shortcuts import get_object_or_404
+from django.http import FileResponse
+from pathlib import Path
+from django.conf import settings
 from .models import MailSeen
-
 def track(request, token):
-    if request.method == 'GET':
-        mailobj = None
-        try:
-            mailobj = MailSeen.objects.get(token=token)
-        except:
-            print("Object doesnot exist")
-        if mailobj is not None:
-            mailobj.seen = True
-            mailobj.save()
-            print("Object updated")
-        image_path = 'templates/1x1.png'
-        response = FileResponse(open(image_path, 'rb'), content_type='image/png')
+    mail_seen = get_object_or_404(MailSeen, token=token)
+    seen_mails = request.COOKIES.get('seen_mails', '')
+
+    if str(mail_seen.mailing.id) not in seen_mails.split(','):
+        mail_seen.increment_seen_count()
+        seen_mails = f"{seen_mails},{mail_seen.mailing.id}" if seen_mails else str(mail_seen.mailing.id)
+
+        response = FileResponse(open(Path(settings.STATIC_ROOT) / '1x1.png', 'rb'), content_type='image/png')
+        response.set_cookie('seen_mails', seen_mails, max_age=365*24*60*60)  # Set cookie for 1 year
         return response
+
+    return FileResponse(open(Path(settings.STATIC_ROOT) / '1x1.png', 'rb'), content_type='image/png')
