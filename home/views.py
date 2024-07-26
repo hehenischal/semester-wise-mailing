@@ -24,17 +24,12 @@ def home(request):
     return render(request, "home/index.html", context)
 
 
-
 def sendMailToken(token):
     subject = "Mailing Confirmation"
     confirm_url = settings.SITE_URL + reverse("confirm_mailing", args=[token.token])
     html_message = render_to_string(
         "home/email_to_sender.html",
-        {
-            "token": token,
-            "confirm_url": confirm_url,
-            'mailing': token.mailing
-        },
+        {"token": token, "confirm_url": confirm_url, "mailing": token.mailing},
     )
     plain_message = strip_tags(html_message)
     from_email = settings.EMAIL_HOST_USER
@@ -61,7 +56,8 @@ def create_mailing(request):
             mailing = form.save(commit=False)
             mailing.email = request.user.email
             mailing.tracking = form.cleaned_data["tracking"]
-            print(mailing.tracking)
+            print("tracking is",mailing.tracking)
+
             mailing.save()
             batches = request.POST.getlist("batches")
             for batch_id in batches:
@@ -93,10 +89,19 @@ def create_mailing(request):
     }
     return render(request, "home/create_mailing.html", context)
 
+
+
+from tracking.models import MailSeen
 @login_required
 def confirm_mailing(request, token):
     mailing_token = get_object_or_404(MailingToken, token=token, sent=False)
     mailing = mailing_token.mailing
+
+    if mailing.tracking:
+        trackingobj = MailSeen.objects.create(mailing_id = mailing)
+        mailing.message = str(mailing.message) + f'<img src="{str(settings.SITE_URL + reverse("track", args=[trackingobj.token]))}">'
+        mailing.save()
+
 
     # Render email content from template
     html_message = render_to_string(
@@ -119,7 +124,6 @@ def confirm_mailing(request, token):
     for attachment in mailing.attachments.all():
         email.attach_file(attachment.file.path)
 
-
     email.send(fail_silently=False)
 
     mailing_token.sent = True
@@ -132,8 +136,6 @@ def base(r):
     return render(r, "base.html")
 
 
-from django.views.decorators.http import require_POST
-
 @login_required
 def update_mailing(request, pk):
     mailing = get_object_or_404(Mailing, pk=pk)
@@ -141,15 +143,25 @@ def update_mailing(request, pk):
     if request.method == "POST":
         form = MailingForm(request.POST, request.FILES, instance=mailing)
         if form.is_valid():
+            # Save the updated mailing
+            mailing = form.save(commit=False)
+            mailing.email = request.user.email  # Ensure email is still set to the user
+            mailing.save()
+
+            # Update batches
+            batches = request.POST.getlist("batches")
+            mailing.batches.set(Batch.objects.filter(id__in=batches))
+
             # Delete existing attachments if new ones are uploaded
             if request.FILES.getlist("attachments"):
                 mailing.attachments.all().delete()
                 files = request.FILES.getlist("attachments")
                 for file in files:
                     Attachments.objects.create(file=file, mailing=mailing)
+            mailing_token = MailingToken.objects.get(mailing=mailing)
 
-            form.save()
-            messages.success(request, "Mailing updated successfully!")
+            sendMailToken(mailing_token)
+            messages.success(request, "Mailing updated successfully! Check your inbox for the update notification.")
             return redirect("index")
         else:
             messages.error(request, "There was an error updating the mailing.")
@@ -162,4 +174,6 @@ def update_mailing(request, pk):
         "batches": batches,
         "mailing": mailing,
     }
+    messages.add_message(request, messages.ERROR, "You need to provide the attachments again.", extra_tags='danger')
     return render(request, "home/update_mailing.html", context)
+

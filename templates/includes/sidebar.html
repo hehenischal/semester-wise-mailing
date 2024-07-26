@@ -169,22 +169,4 @@
 </aside>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    const toggleDarkModeButton = document.getElementById('toggle-dark-mode');
-  
-    toggleDarkModeButton.addEventListener('click', function () {
-      if (typeof window.templateCustomizer !== 'undefined' && window.templateCustomizer.setStyle) {
-        const currentStyle = window.templateCustomizer.settings.defaultStyle || 'light';
-        const newStyle = currentStyle === 'dark' ? 'light' : 'dark';
-        window.templateCustomizer.setStyle(newStyle);
-        
-        // Update button text or style if needed
-        toggleDarkModeButton.textContent = newStyle === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode';
-      } else {
-        console.error('templateCustomizer is not defined or does not have setStyle method');
-      }
-    });
-  });
-  
-</script>
+
