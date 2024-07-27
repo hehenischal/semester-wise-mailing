@@ -15,7 +15,12 @@
   </div>
   {% endfor %}
   {% endif %}
-  <h5 class="pb-1 mb-6">Sent Mails</h5>
+  <div class="d-flex justify-content-between align-items-centerS" >
+  <span class="pb-1 mb-6 h5">Your Mails</span>
+  <span class="ms-auto">
+  <a href="{% url 'create_mailing' %}" class="btn btn-sm btn-outline-primary">+</a>
+  </span>
+</div>
   <div class="row mb-12">
     {% for mail in sent_mails %}
     <div class="col-6">

@@ -11,6 +11,7 @@ import os
 from django.urls import reverse
 from django.http import HttpResponse
 from django.core.mail import EmailMultiAlternatives
+from tracking.models import MailSeen
 
 
 @login_required
@@ -91,30 +92,25 @@ def create_mailing(request):
 
 
 
-from tracking.models import MailSeen
+
 @login_required
 def confirm_mailing(request, token):
     mailing_token = get_object_or_404(MailingToken, token=token, sent=False)
     mailing = mailing_token.mailing
 
     if mailing.tracking:
-        trackingobj = MailSeen.objects.create(mailing_id = mailing)
-        mailing.message = str(mailing.message) + f'<img src="{str(settings.SITE_URL + reverse("track", args=[trackingobj.token]))}">'
+        trackingobj = MailSeen.objects.create(mailing=mailing)
+        tracking_url = settings.SITE_URL + reverse("track", args=[trackingobj.token])
+        mailing.message = f'{mailing.message}<img src="{tracking_url}" alt="" style="display:none;">'
         mailing.save()
 
-
     # Render email content from template
-    html_message = render_to_string(
-        "home/email_to_recipients.html", {"mailing": mailing}
-    )
+    html_message = render_to_string("home/email_to_recipients.html", {"mailing": mailing})
     plain_message = strip_tags(html_message)
     subject = mailing.subject
 
     from_email = settings.EMAIL_HOST_USER
-    recipients = []
-
-    for batch in mailing.batches.all():
-        recipients += batch.recipients.split(",")
+    recipients = [email for batch in mailing.batches.all() for email in batch.recipients.split(",")]
 
     # Create the email message
     email = EmailMultiAlternatives(subject, plain_message, from_email, recipients)
@@ -130,7 +126,6 @@ def confirm_mailing(request, token):
     mailing_token.save()
 
     return render(request, "home/success.html", {"mailing": mailing})
-
 
 def base(r):
     return render(r, "base.html")
