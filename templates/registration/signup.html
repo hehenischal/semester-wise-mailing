@@ -4,23 +4,19 @@
   class="light-style layout-wide customizer-hide"
   dir="ltr"
   data-theme="theme-default"
-  data-assets-path="../assets/"
-  data-template="vertical-menu-template-free">
+  data-assets-path="{% static 'assets' %}"
+  data-template="vertical-menu-template-free"
+>
   <head>
     <meta charset="utf-8" />
     <meta
       name="viewport"
-      content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"/>
-
-    <title>Send Mail</title>
-
-    <meta
-      name="description"
-      content="Most Powerful &amp; Comprehensive Bootstrap 5 Admin Dashboard built for developers!"/>
-    <meta
-      name="keywords"
-      content="dashboard, bootstrap 5 dashboard, bootstrap 5 design, bootstrap 5"
+      content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
     />
+
+    <title>Teacher Registration</title>
+
+    <meta name="description" content="" />
 
     <!-- Favicon -->
     <link
@@ -31,9 +27,9 @@
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&amp;display=swap"
+      href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
       rel="stylesheet"
     />
 
@@ -70,42 +66,18 @@
 
     <!-- Helpers -->
     <script src="{% static 'assets/vendor/js/helpers.js' %}"></script>
-    <style type="text/css">
-      .layout-menu-fixed .layout-navbar-full .layout-menu,
-      .layout-page {
-        padding-top: 0px !important;
-      }
-      .content-wrapper {
-        padding-bottom: 0px !important;
-      }
-    </style>
     <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="{% static 'assets/js/config.js' %}"></script>
-
-
   </head>
 
   <body>
+    <!-- Content -->
+
     <div class="container-xxl">
       <div class="authentication-wrapper authentication-basic container-p-y">
-        {% if messages %}
-  {% for message  in messages %}
-  <div class="bs-toast toast toast-ex show animate__animated my-2 fade bg-{{message.tags}} animate__fade hide" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="2000">
-    <div class="toast-header">
-      <i class="bx bx-bell me-2"></i>
-      <div class="me-auto fw-medium">{{messages.tags}}</div>
-      <small> right now</small>
-      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-    </div>
-    <div class="toast-body">
-      {{message.message}}
-    </div>
-  </div>
-  {% endfor %}
-  {% endif %}
         <div class="authentication-inner">
-          <!-- Register -->
+          <!-- Register Card -->
           <div class="card">
             <div class="card-body">
               <!-- Logo -->
@@ -193,91 +165,232 @@
                       </g>
                     </svg>
                   </span>
-                  <span class="app-brand-text demo text-body fw-bold"
-                    >Send mail</span>
+                  <span class="app-brand-text demo text-body fw-bold text-none"
+                    >ShareX</span
+                  >
                 </a>
               </div>
-              <h4 class="mb-2">Welcome to the app ! 👋</h4>
-              <p class="mb-4">Please sign-in to your account to send mails</p>
-
+              <!-- /Logo -->
+              <h4 class="mb-2">Create an account...🚀</h4>
+              <p class="mb-4">
+                After approval by the admin, you will freely be able to send
+                emails
+              </p>
+              {% if messages %} {% for message in messages %}
+              <div
+                class="bs-toast toast toast-ex show animate__animated my-2 fade bg-{{message.tags}} animate__fade hide"
+                role="alert"
+                aria-live="assertive"
+                aria-atomic="true"
+                data-bs-delay="2000"
+              >
+                <div class="toast-header">
+                  <i class="bx bx-bell me-2"></i>
+                  <div class="me-auto fw-medium">{{messages.tags}}</div>
+                  <small> right now</small>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="toast"
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <div class="toast-body">{{message.message}}</div>
+              </div>
+              {% endfor %} {% endif %}
               <form id="formAuthentication" class="mb-3" method="post">
                 {% csrf_token %}
                 <div class="mb-3">
-                  <label for="email" class="form-label">Email </label>
+                  <label for="username" class="form-label">Fullname </label>
                   <input
                     type="text"
                     class="form-control"
+                    id="username"
+                    name="username"
+                    placeholder="Enter your Fullname "
+                    autofocus
+                    required
+                  />
+                </div>
+                <div class="mb-3">
+                  <label for="email" class="form-label">Email</label>
+                  <input
+                    type="email"
+                    class="form-control"
                     id="email"
                     name="email"
-                    placeholder="Enter your email "
-                    autofocus=""
+                    placeholder="Enter your email"
+                    required
                   />
                 </div>
                 <div class="mb-3 form-password-toggle">
-                  <div class="d-flex justify-content-between">
-                    <label class="form-label" for="password">Password</label>
-                    <a href="{% url 'password_reset' %}">
-                      <small>Forgot Password?</small>
-                    </a>
-                  </div>
+                  <label class="form-label" for="password">Password</label>
                   <div class="input-group input-group-merge">
                     <input
                       type="password"
                       id="password"
                       class="form-control"
                       name="password"
-                      placeholder="············"
+                      placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
                       aria-describedby="password"
+                      required
                     />
                     <span class="input-group-text cursor-pointer"
                       ><i class="bx bx-hide"></i
                     ></span>
                   </div>
                 </div>
+                <div class="mb-3 form-password-toggle">
+                  <label class="form-label" for="password">Retype Password</label>
+                  <div class="input-group input-group-merge">
+                    <input
+                      type="password"
+                      id="password1"
+                      class="form-control"
+                      name="password1"
+                      placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                      aria-describedby="password"
+                      required
+                    />
+                    <span class="input-group-text cursor-pointer"
+                      ><i class="bx bx-hide"></i
+                    ></span>
+                  </div>
+                </div>
+
                 <div class="mb-3">
                   <div class="form-check">
                     <input
                       class="form-check-input"
                       type="checkbox"
-                      name="remember-me"
-                      id="remember-me"
+                      id="terms-conditions"
+                      name="terms"
                     />
-                    <label class="form-check-label" for="remember-me">
-                      Remember Me
+                    <label class="form-check-label" for="terms-conditions">
+                      <small
+                        >I agree to my fullname and email being seen by the
+                        recipients of the emails I send.</small
+                      >
                     </label>
                   </div>
                 </div>
-                <div class="mb-3">
-                  <button class="btn btn-primary d-grid w-100" type="submit">
-                    Sign in
-                  </button>
-                </div>
+                <button class="btn btn-primary d-grid w-100">Sign up</button>
               </form>
 
               <p class="text-center">
-                <span>Dont have an account?</span>
-                <a href="{% url 'signup' %}">
-                  <span>Create account</span>
+                <span>Already have an account?</span>
+                <a href="auth-login-basic.html">
+                  <span>Sign in instead</span>
                 </a>
               </p>
             </div>
           </div>
-          <!-- /Register -->
+          <!-- Register Card -->
         </div>
       </div>
     </div>
+
+    <!-- / Content -->
+
+    <!-- Core JS -->
+    <!-- build:js assets/vendor/js/core.js -->
 
     <script src="{% static 'assets/vendor/libs/jquery/jquery.js' %}"></script>
     <script src="{% static 'assets/vendor/libs/popper/popper.js' %}"></script>
     <script src="{% static 'assets/vendor/js/bootstrap.js' %}"></script>
     <script src="{% static 'assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js' %}"></script>
     <script src="{% static 'assets/vendor/js/menu.js' %}"></script>
-    <script src="{% static 'assets/js/main.js' %}"></script>
-    <script
-      async=""
-      defer=""
-      src="https://buttons.github.io/buttons.js"
-    ></script>
 
+    <!-- endbuild -->
+
+    <!-- Vendors JS -->
+
+    <!-- Main JS -->
+    <script src="{% static 'assets/js/main.js' %}"></script>
+
+    <!-- Page JS -->
+
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', (event) => {
+        const form = document.getElementById('formAuthentication');
+        form.addEventListener('submit', function (event) {
+          event.preventDefault();
+          
+          // Clear previous error messages
+          const errorMessages = form.querySelectorAll('.error-message');
+          errorMessages.forEach((message) => message.remove());
+      
+          let valid = true;
+          
+          // Fullname validation
+          const fullname = form.querySelector('input[name="username"]');
+          if (!fullname.value.trim()) {
+            showError(fullname, 'Fullname is required');
+            valid = false;
+          }
+          if (fullname.value.trim().length < 3) {
+            showError(fullname, 'Fullname must be at least 3 characters long');
+            valid = false;
+          }
+          if (!fullname.value.trim().includes(' ')) {
+            showError(fullname, 'use space to separate firstname and lastname');
+            valid = false;
+          }
+          
+          // Email validation
+          const email = form.querySelector('input[name="email"]');
+          if (!email.value.trim()) {
+            showError(email, 'Email is required');
+            valid = false;
+          } else if (!validateEmail(email.value.trim())) {
+            showError(email, 'Invalid email format');
+            valid = false;
+          }
+          
+          // Password validation
+          const password = form.querySelector('input[name="password"]');
+          const password1 = form.querySelector('input[id="password1"]');
+          if (!password.value.trim()) {
+            showError(password, 'Password is required');
+            valid = false;
+          } else if (password.value.trim().length < 8) {
+            showError(password, 'Password must be at least 8 characters long');
+            valid = false;
+          } else if (password.value.trim() !== password1.value.trim()) {
+            showError(password1, 'Passwords do not match');
+            valid = false;
+          }
+          
+          const terms = form.querySelector('input[name="terms"]');
+          if (!terms.checked) {
+            showError(terms, 'You must agree to the terms and conditions');
+            valid = false;
+          }
+      
+          // If the form is valid, submit it
+          if (valid) {
+            form.submit();
+          }
+        });
+      
+        function showError(input, message) {
+          const error = document.createElement('div');
+          error.className = 'error-message text-danger';
+          error.innerText = message;
+          input.parentElement.appendChild(error);
+        }
+      
+        function validateEmail(email) {
+          const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          return re.test(String(email).toLowerCase());
+        }
+      });
+      </script>
   </body>
+
+  
+    
 </html>
+
