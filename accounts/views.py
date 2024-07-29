@@ -21,6 +21,10 @@ def loginfunc(request):
 
     return render(request,'login.html')
 
+def logoutfunc(request):
+    logout(request)
+    return redirect('login')
+
 def signup(request):
     if request.method == 'POST':
         username = request.POST['username']
