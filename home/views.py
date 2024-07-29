@@ -51,13 +51,11 @@ def sendMailToken(token):
 @login_required
 def create_mailing(request):
     if request.method == "POST":
-        print(request.POST)
         form = MailingForm(request.POST, request.FILES)
         if form.is_valid():
             mailing = form.save(commit=False)
             mailing.email = request.user.email
             mailing.tracking = form.cleaned_data["tracking"]
-            print("tracking is",mailing.tracking)
 
             mailing.save()
             batches = request.POST.getlist("batches")
@@ -78,8 +76,7 @@ def create_mailing(request):
             )
             return redirect("index")
         else:
-            print("Form is invalid")
-            print(form.errors)
+            messages.error(request, "There was an error creating the mailing.")
     else:
         form = MailingForm()
 
