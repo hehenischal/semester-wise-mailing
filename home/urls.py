@@ -9,4 +9,5 @@ urlpatterns = [
     path('create/mailing/', views.create_mailing, name='create_mailing'),
     path('confirm-mailing/<str:token>/', views.confirm_mailing, name='confirm_mailing'),
     path('update/<int:pk>/', views.update_mailing, name='update_mailing'),
+    path('view/<int:pk>/', views.view_mailing, name='view_mailing'),
 ] 

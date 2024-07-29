@@ -1,26 +1,37 @@
 {% extends "base.html" %} {% load static %} {% block content %}
 <div class="container-xxl flex-grow-1 container-p-y">
-  {% if messages %}
-  {% for message  in messages %}
-  <div class="bs-toast toast toast-ex show animate__animated my-2 fade bg-{{message.tags}} animate__fade hide" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="2000">
+  {% if messages %} {% for message in messages %}
+  <div
+    class="bs-toast toast toast-ex show animate__animated my-2 fade bg-{{message.tags}} animate__fade hide"
+    role="alert"
+    aria-live="assertive"
+    aria-atomic="true"
+    data-bs-delay="2000"
+  >
     <div class="toast-header">
       <i class="bx bx-bell me-2"></i>
       <div class="me-auto fw-medium">{{messages.tags}}</div>
       <small> right now</small>
-      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="toast"
+        aria-label="Close"
+      ></button>
     </div>
-    <div class="toast-body">
-      {{message.message}}
-    </div>
+    <div class="toast-body">{{message.message}}</div>
   </div>
-  {% endfor %}
-  {% endif %}
-  <div class="d-flex justify-content-between align-items-centerS" >
-  <span class="pb-1 mb-6 h5">Your Mails</span>
-  <span class="ms-auto">
-  <a href="{% url 'create_mailing' %}" class="btn btn-sm btn-outline-primary">+</a>
-  </span>
-</div>
+  {% endfor %} {% endif %}
+  <div class="d-flex justify-content-between align-items-centerS">
+    <span class="pb-1 mb-6 h5">Your Mails</span>
+    <span class="ms-auto">
+      <a
+        href="{% url 'create_mailing' %}"
+        class="btn btn-sm btn-outline-primary"
+        >+</a
+      >
+    </span>
+  </div>
   <div class="row mb-12">
     {% for mail in sent_mails %}
     <div class="col-6">
@@ -28,24 +39,20 @@
         <div class="card-body">
           <div class="card-title header-elements">
             <h5 class="m-0 me-2">
-              {% for batch in mail.batches.all %} 
-                {{batch.name}} 
-                {% if not forloop.last %}
-                ,
-                {% endif %} 
-              {% endfor %}
+              {% for batch in mail.batches.all %} {{batch.name}} {% if not forloop.last %} , {% endif %} {% endfor %}
             </h5>
             <div class="card-title-elements ms-auto">
               {% if mail.tracking %}
               <span class="badge bg-label-info rounded-pill">Tracking</span>
               {% endif %}
               <span class="badge bg-label-primary rounded-pill"
-                >{{mail.attachments.count}} Attachments</span>
-                {% if mail.sent  %}
-                <span class="badge bg-label-success rounded-pill">Sent</span>
-                {% else %}
-                <span class="badge bg-label-warning rounded-pill">Pending</span>
-                {% endif %}
+                >{{mail.attachments.count}} Attachments</span
+              >
+              {% if mail.sent %}
+              <span class="badge bg-label-success rounded-pill">Sent</span>
+              {% else %}
+              <span class="badge bg-label-warning rounded-pill">Pending</span>
+              {% endif %}
             </div>
           </div>
           <p class="card-text">{{mail.subject}}</p>
@@ -66,18 +73,71 @@
             </div>
             <div class="ms-auto">
               {% if not mail.sent %}
-              <a href="{% url 'update_mailing' mail.id %}" class="btn btn-sm btn-outline-primary">Update</a>
+              <a
+                href="{% url 'update_mailing' mail.id %}"
+                class="btn btn-sm btn-outline-primary"
+                >Update</a
+              >
               {% else %}
-              
-              <a href="#" class="btn btn-sm btn-outline-primary disabled">Update</a>
+
+              <a href="#" class="btn btn-sm btn-outline-primary disabled"
+                >Update</a
+              >
               {% endif %}
-              <a href="" class="btn btn-sm btn-outline-primary">View</a>
+              <button
+                hx-trigger="click"
+                hx-get="{% url 'view_mailing' pk=mail.id %}"
+                hx-target="#modal-content"
+                hx-swap="innerHTML"
+                class="btn btn-sm btn-outline-primary"
+                data-bs-toggle="modal"
+                data-bs-target="#myModal"
+              >
+                View
+              </button>
             </div>
           </div>
         </div>
       </div>
     </div>
     {% endfor %}
+    <div
+      class="modal fade"
+      id="myModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-lg">
+        <div
+          class="modal-content"
+          style="
+            border-radius: 0.5rem;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+          "
+          id="modal-content"
+        ></div>
+      </div>
+    </div>
   </div>
 </div>
+
+<script>
+  document.querySelectorAll('[data-bs-toggle="modal"]').forEach((button) => {
+    button.addEventListener("click", function (event) {
+      console.log("Modal button clicked");
+      const targetModal = document.querySelector(
+        this.getAttribute("data-bs-target")
+      );
+      if (targetModal) {
+        console.log("Target modal found:", targetModal);
+        const modalInstance = new bootstrap.Modal(targetModal);
+        console.log("Modal instance created:", modalInstance);
+      } else {
+        console.log("Target modal not found");
+      }
+    });
+  });
+</script>
 {% endblock content %}

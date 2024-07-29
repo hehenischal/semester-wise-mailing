@@ -104,7 +104,6 @@
             <!-- / Content -->
 
             <!-- Footer -->
-
             <!-- / Footer -->
           </div>
           <!-- Content wrapper -->
@@ -119,9 +118,11 @@
 
     <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->
+
     <script src="{% static 'assets/vendor/libs/jquery/jquery.js' %}"></script>
     <script src="{% static 'assets/vendor/libs/popper/popper.js' %}"></script>
-    <script src="{% static 'assets/vendor/js/bootstrap.js' %}"></script>
+    {% comment %} <script src="{% static 'assets/vendor/js/bootstrap.js' %}"></script> {% endcomment %}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <script src="{% static 'assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js' %}"></script>
     <script src="{% static 'assets/vendor/js/menu.js' %}"></script>
 
@@ -143,8 +144,10 @@
       src="https://buttons.github.io/buttons.js"
     ></script>
 
+    <script src="{% static 'assets/js/htmx.js' %}">
+    </script>
+
     <script>
-      console.log(window.location.pathname);
       links = document.querySelectorAll(".menu-link");
       links.forEach((link) => {
         if (link.getAttribute("href") == window.location.pathname) {

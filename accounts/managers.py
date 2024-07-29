@@ -4,9 +4,6 @@ class UserManager(BaseUserManager):
     use_in_migrations = True
 
     def create_user(self, email, first_name, last_name, password=None, **extra_fields):
-        """
-        Create and return a regular user with an email, first name, last name, and password.
-        """
         if not email:
             raise ValueError('The Email field must be set')
         email = self.normalize_email(email)

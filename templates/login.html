@@ -83,37 +83,27 @@
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="{% static 'assets/js/config.js' %}"></script>
 
-    <script
-      type="text/javascript"
-      src="https://a.omappapi.com/app/js/api.min.js"
-      async=""
-      data-user="252882"
-      data-account="269977"
-    ></script>
-    <link
-      rel="stylesheet"
-      href="https://a.omappapi.com/app/js/api.min.css"
-      id="omapi-css"
-      media="all"
-    />
+
   </head>
 
   <body>
-    <!-- ?PROD Only: Google Tag Manager (noscript) (Default ThemeSelection: GTM-5DDHKGP, PixInvent: GTM-5J3LMKC) -->
-    <noscript
-      ><iframe
-        src="https://www.googletagmanager.com/ns.html?id=GTM-5DDHKGP"
-        height="0"
-        width="0"
-        style="display: none; visibility: hidden"
-      ></iframe
-    ></noscript>
-    <!-- End Google Tag Manager (noscript) -->
-
-    <!-- Content -->
-
     <div class="container-xxl">
       <div class="authentication-wrapper authentication-basic container-p-y">
+        {% if messages %}
+  {% for message  in messages %}
+  <div class="bs-toast toast toast-ex show animate__animated my-2 fade bg-{{message.tags}} animate__fade hide" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="2000">
+    <div class="toast-header">
+      <i class="bx bx-bell me-2"></i>
+      <div class="me-auto fw-medium">{{messages.tags}}</div>
+      <small> right now</small>
+      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <div class="toast-body">
+      {{message.message}}
+    </div>
+  </div>
+  {% endfor %}
+  {% endif %}
         <div class="authentication-inner">
           <!-- Register -->
           <div class="card">
@@ -226,7 +216,7 @@
                 <div class="mb-3 form-password-toggle">
                   <div class="d-flex justify-content-between">
                     <label class="form-label" for="password">Password</label>
-                    <a href="auth-forgot-password-basic.html">
+                    <a href="{% url 'password_reset' %}">
                       <small>Forgot Password?</small>
                     </a>
                   </div>
@@ -288,19 +278,6 @@
       defer=""
       src="https://buttons.github.io/buttons.js"
     ></script>
-    <script type="text/javascript" id="">
-      console.log("TS:GTM Worked");
-    </script>
-    <script type="text/javascript" id="">
-      (function (b, c, d) {
-        var a = b.createElement("script");
-        a.type = "text/javascript";
-        a.src = "https://a.omappapi.com/app/js/api.min.js";
-        a.async = !0;
-        a.dataset.user = c;
-        a.dataset.account = d;
-        b.getElementsByTagName("head")[0].appendChild(a);
-      })(document, 252882, 269977);
-    </script>
+
   </body>
 </html>

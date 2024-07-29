@@ -172,3 +172,8 @@ def update_mailing(request, pk):
     messages.add_message(request, messages.ERROR, "You need to provide the attachments again.", extra_tags='danger')
     return render(request, "home/update_mailing.html", context)
 
+
+def view_mailing(req,pk):
+    mailing = get_object_or_404(Mailing, pk=pk)
+    return render(req,'components/view_mail.html',{'mailing':mailing})
+

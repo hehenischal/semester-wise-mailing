@@ -12,10 +12,7 @@ class MailSeen(models.Model):
         self.save()
 
     def total_recipients(self):
-        batches = self.mailing_id.batches.all()
-        recipients = 0
-        for batch in batches:
-            recipients += len(batch.recipients.split(','))
+        recipients = sum(batch.recipients.count(',') + 1 for batch in self.mailing_id.batches.all())
         return recipients
 
     def __str__(self):
