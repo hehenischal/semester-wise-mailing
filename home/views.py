@@ -96,7 +96,7 @@ def confirm_mailing(request, token):
     mailing = mailing_token.mailing
 
     if mailing.tracking:
-        trackingobj = MailSeen.objects.create(mailing=mailing)
+        trackingobj = MailSeen.objects.create(mailing_id=mailing)
         tracking_url = settings.SITE_URL + reverse("track", args=[trackingobj.token])
         mailing.message = f'{mailing.message}<img src="{tracking_url}" alt="" style="display:none;">'
         mailing.save()
