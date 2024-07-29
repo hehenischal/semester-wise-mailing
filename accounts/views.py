@@ -42,12 +42,12 @@ def signup(request):
                 return redirect(login)
             except:
                 messages.error(request, 'User creation failed; Maybe User already exists', extra_tags='danger')
-                return render(request, 'signup.html')
+                return render(request, 'registration/signup.html')
         else:
             messages.warning(request,'Password does not match')
-            return render(request,'signup.html')
+            return render(request,'registration/signup.html')
         
-    return render(request, 'signup.html')
+    return render(request, 'registration/signup.html')
 
 
 def forgot_password(request):
