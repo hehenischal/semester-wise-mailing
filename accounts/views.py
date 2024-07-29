@@ -39,7 +39,7 @@ def signup(request):
                 user = Custom_user.objects.create_user(email=email,first_name=first_name,last_name=last_name,password=password)
                 user.save()
                 messages.success(request,'User created successfully')
-                return render(request,'login.html')
+                return redirect(login)
             except:
                 messages.error(request, 'User creation failed; Maybe User already exists', extra_tags='danger')
                 return render(request, 'signup.html')
