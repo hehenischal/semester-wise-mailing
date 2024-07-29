@@ -1,0 +1,62 @@
+
+  <div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel">
+      <small class="text-muted">{{ mailing.subject|upper }}</small>
+    </h5>
+  </div>
+  <div class="modal-body">
+    <div class="d-flex flex-column mb-3">
+      <div class="d-flex justify-content-between align-items-center mb-2">
+        <div>
+          Batches:
+          {% for batch in mailing.batches.all %}
+            {{ batch.name }}{% if not forloop.last %}, {% endif %}
+          {% endfor %}
+        </div>
+        <div>
+          {% if mailing.tracking %}
+            <span class="badge bg-label-info rounded-pill">Tracking</span>
+          {% endif %}
+          <span class="badge bg-label-primary rounded-pill">{{ mailing.attachments.count }} Attachments</span>
+          {% if mailing.sent %}
+            <span class="badge bg-label-success rounded-pill">Sent</span>
+          {% else %}
+            <span class="badge bg-label-warning rounded-pill">Pending</span>
+          {% endif %}
+        </div>
+      </div>
+      <div class="mb-3">
+        <div class="mb-3 border-bottom pb-3">
+          {{ mailing.message|safe }}
+        </div>
+        <div>
+          <h6 class="fw-semibold mb-2">Attachments:</h6>
+          {% if not mailing.attachments.count %}
+          No Attachments Found
+          {% endif %}
+          <ul class="list-unstyled">
+            {% for attachment in mailing.get_attachments %}
+              <li class="mb-1">
+                <a href="{{ attachment.file.url }}" target="_blank"  class="text-primary text-decoration-none">{{ attachment.file.name }}</a>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button 
+    type="button" 
+    class="btn btn-secondary" 
+    onclick="closeModal()"
+    >Close</button>
+    <button type="button" class="btn btn-primary">Save changes</button>
+  </div>
+
+<script>
+  function closeModal() {
+    $('#myModal').removeClass('show').hide(); // Hide the modal
+    $('.modal-backdrop').remove(); // Remove the modal backdrop
+  }
+</script>
