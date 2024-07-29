@@ -14,7 +14,7 @@ def loginfunc(request):
         user = authenticate(request,email=email,password=password)
         if user is not None:
             login(request,user)
-            return render(request,'base.html')
+            return redirect('home')
         else:
             messages.warning(request,'Email or Password is incorrect',extra_tags="danger")
             return redirect('login')
