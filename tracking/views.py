@@ -14,7 +14,7 @@ def track(request, token):
         seen_mails = f"{seen_mails},{mail_seen.mailing_id}" if seen_mails else str(mail_seen.mailing_id)
 
     response = FileResponse(open(Path(settings.STATIC_ROOT) / '1x1.png', 'rb'), content_type='image/png')
-    response.set_cookie('seen_mails', seen_mails, max_age=365*24*60*60)  # Set cookie for 1 year
+    response.set_cookie('seen_mails', seen_mails, max_age=365*24*60*60)  
     return response
 
 
