@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container-xxl flex-grow-1 container-p-y">
+    <span class="pb-1 mb-6 h5">Create/Edit Batch</span>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Save</button>
+  </form>
+  <a href="{% url 'batch_list' %}">Cancel</a>
+</div>
+{% endblock %}

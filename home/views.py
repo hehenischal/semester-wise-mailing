@@ -174,3 +174,5 @@ def view_mailing(req,pk):
     mailing = get_object_or_404(Mailing, pk=pk)
     return render(req,'components/view_mail.html',{'mailing':mailing})
 
+
+

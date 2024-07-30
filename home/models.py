@@ -43,6 +43,10 @@ class Batch(models.Model):
     def __str__(self):
         return str(self.name)
     
+    def recipients_as_list(self):
+        return [ x.strip()  ]
+
+    
 class MailingToken(models.Model):
     mailing = models.ForeignKey(Mailing, on_delete=models.CASCADE, related_name='mailing_token')
     token = models.CharField(max_length=100)
