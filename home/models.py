@@ -1,5 +1,6 @@
 from django.db import models
 from tinymce.models import HTMLField
+import re
 
 class Attachments(models.Model):
     file = models.FileField(upload_to='attachments/')
@@ -42,9 +43,29 @@ class Batch(models.Model):
 
     def __str__(self):
         return str(self.name)
-    
+    @property
     def recipients_as_list(self):
-        return [ x.strip()  ]
+        return [ recipient.strip() for recipient in self.recipients.split(',') ]
+    
+    class Meta:
+        verbose_name = 'Batch'
+        verbose_name_plural = 'Batches'
+
+    def is_valid_email(self, email):
+        email_regex = r'^[\w\.-]+@[\w\.-]+\.\w+$'
+        return bool(re.match(email_regex, email))
+
+    def save(self, *args, **kwargs):
+        unique_recipients = list(set(
+            email.strip() for email in self.recipients_as_list
+            if email.strip() and self.is_valid_email(email)
+        ))
+
+        # Join the valid recipients back into a string
+        self.recipients = ','.join(unique_recipients)
+
+        # Call the superclass save method
+        super().save(*args, **kwargs)
 
     
 class MailingToken(models.Model):

@@ -3,19 +3,24 @@ from django.contrib.auth.decorators import user_passes_test
 from django.urls import reverse
 from home.models import Batch
 from .forms import BatchForm
+from django.contrib import messages
 
 def is_admin(user):
     return user.role == 'admin'
 
+def batches(request):
+    batches = Batch.objects.all()
+    return render(request, 'batches/batch_form.html', {'batches': batches})
+
 @user_passes_test(is_admin)
 def batch_list(request):
     batches = Batch.objects.all()
-    return render(request, 'batches/batch_list.html', {'batches': batches})
+    return render(request, 'components/batch_list.html', {'batches': batches})
 
-@user_passes_test(is_admin)
-def batch_detail(request, pk):
-    batch = get_object_or_404(Batch, pk=pk)
-    return render(request, 'batches/batch_detail.html', {'batch': batch})
+# @user_passes_test(is_admin)
+# def batch_detail(request, pk):
+#     batch = get_object_or_404(Batch, pk=pk)
+#     return render(request, 'batches/batch_detail.html', {'batch': batch})
 
 @user_passes_test(is_admin)
 def batch_create(request):
@@ -23,10 +28,10 @@ def batch_create(request):
         form = BatchForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('batch_list')
-    else:
-        form = BatchForm()
-    return render(request, 'batches/batch_form.html', {'form': form})
+            messages.success(request, 'Batch created successfully')
+        else:
+            messages.error(request, 'Error creating batch',extra_tags='danger')
+        return render(request, 'components/toast.html')
 
 @user_passes_test(is_admin)
 def batch_update(request, pk):
@@ -37,8 +42,8 @@ def batch_update(request, pk):
             form.save()
             return redirect('batch_detail', pk=batch.pk)
     else:
-        form = BatchForm(instance=batch)
-    return render(request, 'batches/batch_form.html', {'form': form})
+        batch = Batch.objects.get(pk=pk)
+    return render(request, 'components/batch_update.html', {'batch': batch})
 
 @user_passes_test(is_admin)
 def batch_delete(request, pk):
@@ -46,6 +51,5 @@ def batch_delete(request, pk):
     if request.method == 'POST':
         batch.delete()
         return redirect('batch_list')
-    return render(request, 'batches/batch_confirm_delete.html', {'batch': batch})
 
 
