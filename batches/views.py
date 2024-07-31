@@ -17,10 +17,6 @@ def batch_list(request):
     batches = Batch.objects.all()
     return render(request, 'components/batch_list.html', {'batches': batches})
 
-# @user_passes_test(is_admin)
-# def batch_detail(request, pk):
-#     batch = get_object_or_404(Batch, pk=pk)
-#     return render(request, 'batches/batch_detail.html', {'batch': batch})
 
 @user_passes_test(is_admin)
 def batch_create(request):
@@ -40,7 +36,11 @@ def batch_update(request, pk):
         form = BatchForm(request.POST, instance=batch)
         if form.is_valid():
             form.save()
-            return redirect('batch_detail', pk=batch.pk)
+            messages.success(request, 'Batch updated successfully')
+            return render(request, 'components/toast.html')
+        else:
+            messages.error(request, 'Error updating batch',extra_tags='danger')
+            return render(request, 'components/toast.html')
     else:
         batch = Batch.objects.get(pk=pk)
     return render(request, 'components/batch_update.html', {'batch': batch})

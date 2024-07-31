@@ -1,11 +1,18 @@
-<form hx-post ={% url "batch_update" batch.id %} 
+
+<form hx-post ={% url "batch_update" batch.id %} id="form2"
           hx-trigger="submit" 
           hx-target=".container-xxl" 
-          hx-swap="afterbegin" 
-          class="mb-3" method="post">
+          hx-swap="afterbegin"
+          hx-on:htmx:after-request="$('#form2')[0].reset()"
+          hx-indicator="#loading-indicator"
+          method="post">
+          <div class="spinner-border" id="loading-indicator" >
+          </div>
             {% csrf_token %}
             <div class="mb-4">
-              <label for="id_name" class="form-label">from components</label>
+              <label for="id_name" class="form-label">
+                Name of the Batch
+              </label>
               <input
                 type="text"
                 class="form-control"
@@ -18,35 +25,16 @@
             </div>
             <div class="mb-4">
               <label for="id_recipients" class="form-label">Recipients</label>
-              <textarea
-                id="autosize-demo"
-                name="recipients"
-                rows="3"
-                class="form-control"
-                placeholder="abc@gmail.com, xyz@gmail.com, admin@nepal.dev"
-                style="
-                  overflow: hidden;
-                  overflow-wrap: break-word;
-                  resize: none;
-                  text-align: start;
-                  height: 78.6px;
-                "
-                required
-              >
-              {% for recipient in batch.recipients_as_list %}
-                {{ recipient }}{% if not forloop.last %},\n{% endif %}
-              {% endfor %}
-            </textarea>
+              <textarea id="autosize-demo" name="recipients" rows="3" class="form-control" placeholder="abc@gmail.com, xyz@gmail.com, admin@nepal.dev" style="   overflow: hidden;   overflow-wrap: break-word;   resize: none;   text-align: start;   height: 78.6px; " required>{% for recipient in batch.recipients_as_list %}{{ recipient }},{% endfor %}</textarea>
             </div>
-            <button type="submit" class="btn btn-primary mt-3">Create</button>
             <button
-              type="button"
-              class="btn btn-secondary mt-3"
-              data-bs-toggle="modal"
-              data-bs-target="#cancelModal"
-            >
-              Cancel
-            </button>
+            type="button"
+            class="btn btn-secondary mt-3"
+            data-bs-toggle="modal"
+            data-bs-target="#cancelModal">
+            Cancel
+          </button>
+            <button type="submit" class="btn btn-primary mt-3">Update</button>
 
             <!-- Cancel Modal -->
             <div
@@ -76,9 +64,16 @@
                     >
                       No
                     </button>
-                    <button  class="btn btn-primary">Yes</a>
+                    <a href="{% url 'batches' %}"  class="btn btn-primary">Yes</a>
                   </div>
                 </div>
               </div>
             </div>
           </form>
+
+          <script>
+            textarea = document.querySelector("#autosize-demo")
+            autoResizeTextarea(textarea) 
+            htmx.process(htmx.find('#form2'))
+          </script>
+          

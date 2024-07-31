@@ -14,39 +14,20 @@
 							<tr>
 								<td><span>{{batch.name}}</span></td>
 								<td>{{batch.recipients_as_list|length}}</td>
-								<td>
-									<div class="dropdown">
+								<td class="d-flex justify-content-center">
 										<button
-											type="button"
-											class="btn p-0 dropdown-toggle hide-arrow"
-											data-bs-toggle="dropdown"
-											aria-expanded="false">
-											<i
-												class="bx bx-dots-vertical-rounded">
-											</i>
+										type="button"
+										class="dropdown-item btn-sm p-0" 
+										hx-get="{% url 'batch_update' pk=batch.id %}" 
+										hx-target="#batchForm" 
+										hx-swap="innerHTML"
+										hx-on:htmx:after-swap="initTextarea()"
+										>
+											<i class="bx bx-edit-alt me-1"></i>
 										</button>
-										<div
-											class="dropdown-menu">
-											<button
-												class="dropdown-item"
-												hx-get="{% url 'batch_update' pk=batch.id %}"
-												hx-target="#batchForm"
-												hx-trigger="click"
-												hx-swap="innerHTML">
-												<i class="bx bx-edit-alt me-1">
-												</i>
-												Edit
-											</button>
-											<button
-												type="button"
-												class="dropdown-item"
-												data-bs-toggle="modal"
-												data-bs-target="#deleteModal{{batch.id}}">
-												<i class="bx bx-trash me-1"></i>
-												Delete
-											</button>
-										</div>
-									</div>
+										<button type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#deleteModal{{batch.id}}"> 
+											<i class="bx bx-trash me-1"></i>
+										</button>
 								</td>
 							</tr>
 							<div
@@ -85,18 +66,19 @@
 												data-bs-dismiss="modal">
 												No
 											</button>
-											<form
-												hx-post="{% url 'batch_delete' pk=batch.id %}"
-												hx-trigger="submit"
-												hx-target="#batchesListCard"
-												hx-swap="innerHTML"
-												hx-on::before-request="$(this).closest('.modal').modal(hide)">
+											<form 
+											hx-post="{% url 'batch_delete' pk=batch.id %}" 
+											hx-trigger="submit" 
+											hx-swap="innerHTML" 
+											hx-target="#batchesListCard"
+											hx-on::before-request="$('.modal')">
 												{% csrf_token %}
-											<button
-												type="submit"
-												class="btn btn-danger mt-3">
-												Yes
-											</button>
+												<button
+													data-bs-dismiss="modal"
+													type="submit"
+													class="btn btn-danger">
+													Yes
+												</button>
 											</form>
 										</div>
 									</div>
