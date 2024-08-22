@@ -23,8 +23,10 @@ def loginfunc(request):
 
 @login_required
 def logoutfunc(request):
-    logout(request)
-    return redirect('login')
+    if request.method == 'POST':
+        logout(request)
+        return redirect('login')
+    return render(request,'login.html')
 
 def signup(request):
     if request.method == 'POST':
