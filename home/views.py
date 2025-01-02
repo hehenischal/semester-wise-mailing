@@ -9,9 +9,9 @@ from django.contrib import messages
 import uuid
 import os
 from django.urls import reverse
-from django.http import HttpResponse
 from django.core.mail import EmailMultiAlternatives
 from tracking.models import MailSeen
+from concurrent.futures import ThreadPoolExecutor
 
 
 @login_required
@@ -25,6 +25,9 @@ def home(request):
     return render(request, "home/index.html", context)
 
 
+def send_email_confirmation_async(email):
+    email.send(fail_silently=False)
+
 def sendMailToken(token):
     subject = "Mailing Confirmation"
     confirm_url = settings.SITE_URL + reverse("confirm_mailing", args=[token.token])
@@ -36,16 +39,17 @@ def sendMailToken(token):
     from_email = settings.EMAIL_HOST_USER
     to = [token.mailing.email]
 
+    # Create the email message
     email = EmailMultiAlternatives(subject, plain_message, from_email, to)
     email.attach_alternative(html_message, "text/html")
 
-    attachments = [
-        attachment.file.path for attachment in token.mailing.attachments.all()
-    ]
+    # Attach files
+    attachments = [attachment.file.path for attachment in token.mailing.attachments.all()]
     for attachment in attachments:
         email.attach_file(attachment)
 
-    email.send()
+    # Submit email sending task to the thread pool
+    executor.submit(send_email_confirmation_async, email)
 
 
 @login_required
@@ -88,7 +92,16 @@ def create_mailing(request):
     return render(request, "home/create_mailing.html", context)
 
 
+# ThreadPoolExecutor for asynchronous tasks
+executor = ThreadPoolExecutor(max_workers=5)
 
+def send_email_async(email, mailing_token):
+    # Send the email
+    email.send(fail_silently=False)
+
+    # Update the token status after sending the email
+    mailing_token.sent = True
+    mailing_token.save()
 
 @login_required
 def confirm_mailing(request, token):
@@ -117,11 +130,10 @@ def confirm_mailing(request, token):
     for attachment in mailing.attachments.all():
         email.attach_file(attachment.file.path)
 
-    email.send(fail_silently=False)
+    # Submit email sending task to the thread pool
+    executor.submit(send_email_async, email, mailing_token)
 
-    mailing_token.sent = True
-    mailing_token.save()
-
+    # Render the success page immediately
     return render(request, "home/success.html", {"mailing": mailing})
 
 def base(r):
